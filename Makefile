@@ -425,7 +425,10 @@ WARNINGS := -Wall \
 	-Wno-unused-function \
 	-Wno-uninitialized \
 	$(NEW_GCC_WARNING_FLAGS) \
-	-Wno-strict-aliasing
+	-Wno-strict-aliasing \
+   -Wno-trigraphs \
+   -Wno-parentheses \
+   -Wno-reorder
 endif
 
 EXTRA_GCC_FLAGS := -funroll-loops
