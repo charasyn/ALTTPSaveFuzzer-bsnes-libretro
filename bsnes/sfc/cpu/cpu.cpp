@@ -1,5 +1,6 @@
+#include <iostream>
 #include <sfc/sfc.hpp>
-
+extern bool brk_hit;
 namespace SuperFamicom {
 
 CPU cpu;

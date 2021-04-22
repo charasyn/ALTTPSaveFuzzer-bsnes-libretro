@@ -30,6 +30,25 @@ auto WDC65816::idle6(uint16 address) -> void {
 auto WDC65816::fetch() -> uint8 {
   return read(PC.b << 16 | PC.w++);
 }
+auto WDC65816::fetch_inst() -> uint8 {
+  if (PC.b == 0x09 && PC.w == 0xa190) {
+    brk_hit = true;
+  }
+  if (!hitIllegal) {
+    if ((PC.b&0x80) >= 0x70 && (PC.b&0x80) <= 0x7d) {
+      // executing from SRAM
+      std::cout << "Executing from SRAM: " << std::hex << (int)PC.b << ":" << PC.w << std::endl;
+      hitIllegal = true;
+    } else if (((PC.b&0x80) >= 0x40 && (PC.b&0x80) <= 0x6f) || (
+              ((PC.b&0x80) >= 0x00 && (PC.b&0x80) <= 0x3f) && 
+              ((PC.w) >= 0 && (PC.w) <= 0x7fff))) {
+      // executing from non-ROM and non-main-RAM
+      std::cout << "Executing from unexpected area: " << std::hex << (int)PC.b << ":" << PC.w << std::endl;
+      hitIllegal = true;
+    }
+  }
+  return read(PC.b << 16 | PC.w++);
+}
 
 auto WDC65816::pull() -> uint8 {
   EF ? (void)S.l++ : (void)S.w++;

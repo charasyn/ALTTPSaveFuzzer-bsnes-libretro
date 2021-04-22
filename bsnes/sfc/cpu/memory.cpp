@@ -7,6 +7,16 @@ auto CPU::idle() -> void {
 }
 
 auto CPU::read(uint address) -> uint8 {
+  if(brk_hit) {
+    if (
+      (address >= 0x7ef000 && address <= 0x7ef4ff)||
+      (address >= 0x700000 && address <= 0x7dffff)||
+      (address >= 0xf00000 && address <= 0xffffff)
+    ) {
+      std::cout << "read from address " << std::hex << address
+        << " PC=" << (unsigned)r.pc.d << std::endl;
+    }
+  }
   if(address & 0x408000) {
     if(address & 0x800000 && io.fastROM) {
       status.clockCount = 6;

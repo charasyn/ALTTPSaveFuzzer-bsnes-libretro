@@ -52,6 +52,7 @@ struct WDC65816 {
   alwaysinline auto idle4(uint16 x, uint16 y) -> void;
   alwaysinline auto idle6(uint16 address) -> void;
   alwaysinline auto fetch() -> uint8;
+  alwaysinline auto fetch_inst() -> uint8;
   alwaysinline auto pull() -> uint8;
                auto push(uint8 data) -> void;
   alwaysinline auto pullN() -> uint8;
@@ -283,6 +284,7 @@ struct WDC65816 {
     r24 v;  //temporary register
     r24 w;  //temporary register
   } r;
+  bool hitIllegal = 0;
 };
 
 }

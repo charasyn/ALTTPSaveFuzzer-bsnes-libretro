@@ -1,5 +1,8 @@
+#include <iostream>
 #include <processor/processor.hpp>
 #include "wdc65816.hpp"
+
+bool brk_hit=false;
 
 namespace Processor {
 
